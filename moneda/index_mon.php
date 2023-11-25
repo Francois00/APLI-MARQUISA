@@ -1,5 +1,5 @@
 <?php
-include 'funciones.php';
+include '../funciones.php';
 
 csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
@@ -7,32 +7,32 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
 }
 
 $error = false;
-$config = include 'config.php';
+$config = include '../config.php';
 
 try {
   $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
-  if (isset($_POST['ruc'])) {
-    $consultaSQL = "SELECT * FROM proveedor WHERE ruc LIKE '%" . $_POST['ruc'] . "%'";
+  if (isset($_POST['cod'])) {
+    $consultaSQL = "SELECT * FROM moneda WHERE cod LIKE '%" . $_POST['cod'] . "%'";
   } else {
-    $consultaSQL = "SELECT * FROM proveedor";
+    $consultaSQL = "SELECT * FROM moneda";
   }
 
   $sentencia = $conexion->prepare($consultaSQL);
   $sentencia->execute();
 
-  $proveedor = $sentencia->fetchAll();
+  $moneda = $sentencia->fetchAll();
 
 } catch(PDOException $error) {
   $error= $error->getMessage();
 }
 
-$titulo = isset($_POST['ruc']) ? 'Lista de proveedores (' . $_POST['ruc'] . ')' : 'Lista de proveedores';
+$titulo = isset($_POST['cod']) ? 'Lista de monedaes (' . $_POST['cod'] . ')' : 'Lista de moneda es';
 ?>
 
 
-<?php include "templates/header.php"; ?>
+<?php include "../templates/header.php"; ?>
 
 <?php
 if ($error) {
@@ -53,11 +53,11 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <a href="crear.php"  class="btn btn-primary mt-4">Crear Proveedor</a>
+      <a href="crear_mon.php"  class="btn btn-primary mt-4">Crear moneda</a>
       <hr>
       <form method="post" class="form-inline">
         <div class="form-group mr-3">
-          <input type="text" id="ruc" name="ruc" placeholder="Buscar por RUC" class="form-control">
+          <input type="text" id="cod" name="cod" placeholder="Buscar por Codigo" class="form-control">
         </div>
         <input name="csrf" type="hidden" value="<?php echo escapar($_SESSION['csrf']); ?>">
         <button type="submit" name="submit" class="btn btn-primary">Ver resultados</button>
@@ -73,23 +73,23 @@ if ($error) {
       <table class="table">
         <thead>
           <tr>
-            <th>RUC</th>
+            <th>CODIGO</th>
             <th>NOMBRE</th>
-            <th>DIRECCION</th>
+            <th>TIPO</th>
           </tr>
         </thead>
         <tbody>
           <?php
-          if ($proveedor && $sentencia->rowCount() > 0) {
-            foreach ($proveedor as $fila) {
+          if ($moneda && $sentencia->rowCount() > 0) {
+            foreach ($moneda as $fila) {
               ?>
               <tr>
-                <td><?php echo escapar($fila["ruc"]); ?></td>
+                <td><?php echo escapar($fila["cod"]); ?></td>
                 <td><?php echo escapar($fila["nom"]); ?></td>
-                <td><?php echo escapar($fila["dir"]); ?></td>
+                <td><?php echo escapar($fila["tipo"]); ?></td>
                 <td>
-                  <a href="<?= 'borrar.php?ruc=' . escapar($fila["ruc"]) ?>">🗑️Borrar</a>
-                  <a href="<?= 'editar.php?ruc=' . escapar($fila["ruc"]) ?>">✏️Editar</a>
+                  <a href="<?= 'borrar_mon.php?cod=' . escapar($fila["cod"]) ?>">🗑️Borrar</a>
+                  <a href="<?= 'editar_mon.php?cod=' . escapar($fila["cod"]) ?>">✏️Editar</a>
                 </td>
               </tr>
               <?php
@@ -102,4 +102,4 @@ if ($error) {
   </div>
 </div>
 
-<?php include "templates/footer.php"; ?>
+<?php include "../templates/footer.php"; ?>

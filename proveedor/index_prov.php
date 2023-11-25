@@ -53,7 +53,11 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
+<<<<<<< HEAD
       <a href="crear.php" class="btn btn-primary mt-4">Crear Proveedor</a>
+=======
+      <a href="crear_prov.php"  class="btn btn-primary mt-4">Crear Proveedor</a>
+>>>>>>> 61a73a3d36b54db9f8e52c69a6aed1b128aa15ea
       <hr>
       <form method="post" class="form-inline">
         <div class="form-group mr-3">
@@ -96,8 +100,8 @@ if ($error) {
                   <?php echo escapar($fila["dir"]); ?>
                 </td>
                 <td>
-                  <a href="<?= 'borrar.php?ruc=' . escapar($fila["ruc"]) ?>">🗑️Borrar</a>
-                  <a href="<?= 'editar.php?ruc=' . escapar($fila["ruc"]) ?>">✏️Editar</a>
+                  <a href="<?= 'borrar_prov.php?ruc=' . escapar($fila["ruc"]) ?>">🗑️Borrar</a>
+                  <a href="<?= 'editar_prov.php?ruc=' . escapar($fila["ruc"]) ?>">✏️Editar</a>
                 </td>
               </tr>
               <?php
@@ -110,4 +114,4 @@ if ($error) {
   </div>
 </div>
 
-<?php include "templates/footer.php"; ?>
+<?php include "../templates/footer.php"; ?>

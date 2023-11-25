@@ -1,21 +1,21 @@
 <?php
-include 'funciones.php';
+include '../funciones.php';
 
 csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
   die();
 }
 
-$config = include 'config.php';
+$config = include '../config.php';
 
 $resultado = [
   'error' => false,
   'mensaje' => ''
 ];
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['ruc'])) {
   $resultado['error'] = true;
-  $resultado['mensaje'] = 'El proveedor no existe';
+  $resultado['mensaje'] = 'El cliente no existe';
 }
 
 if (isset($_POST['submit'])) {
@@ -23,19 +23,19 @@ if (isset($_POST['submit'])) {
     $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
     $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
-    $proveedor = [
+    $cliente = [
       "ruc" => $_GET['ruc'],
       "nom" => $_POST['nom'],
       "dir" => $_POST['dir']
     ];
 
-    $consultaSQL = "UPDATE proveedor SET
+    $consultaSQL = "UPDATE cliente SET
         nom = :nom,
         dir = :dir,
         updated_at = NOW()
         WHERE ruc = :ruc";
     $consulta = $conexion->prepare($consultaSQL);
-    $consulta->execute($proveedor);
+    $consulta->execute($cliente);
 
   } catch (PDOException $error) {
     $resultado['error'] = true;
@@ -48,16 +48,16 @@ try {
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
   $ruc = $_GET['ruc'];
-  $consultaSQL = "SELECT * FROM proveedor WHERE ruc =" . $ruc;
+  $consultaSQL = "SELECT * FROM cliente WHERE ruc =" . $ruc;
 
   $sentencia = $conexion->prepare($consultaSQL);
   $sentencia->execute();
 
-  $proveedor = $sentencia->fetch(PDO::FETCH_ASSOC);
+  $cliente = $sentencia->fetch(PDO::FETCH_ASSOC);
 
-  if (!$proveedor) {
+  if (!$cliente) {
     $resultado['error'] = true;
-    $resultado['mensaje'] = 'No se ha encontrado el proveedor';
+    $resultado['mensaje'] = 'No se ha encontrado el cliente';
   }
 
 } catch (PDOException $error) {
@@ -66,7 +66,7 @@ try {
 }
 ?>
 
-<?php require "templates/header.php"; ?>
+<?php require "../templates/header.php"; ?>
 
 <?php
 if ($resultado['error']) {
@@ -91,7 +91,7 @@ if (isset($_POST['submit']) && !$resultado['error']) {
     <div class="row">
       <div class="col-md-12">
         <div class="alert alert-success" role="alert">
-          El proveedor ha sido actualizado correctamente
+          El cliente ha sido actualizado correctamente
         </div>
       </div>
     </div>
@@ -101,29 +101,29 @@ if (isset($_POST['submit']) && !$resultado['error']) {
 ?>
 
 <?php
-if (isset($proveedor) && $proveedor) {
+if (isset($cliente) && $cliente) {
   ?>
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-        <h2 class="mt-4">Editando el proveedor
-          <?= escapar($proveedor['ruc']) . ' ' . escapar($proveedor['nom']) ?>
+        <h2 class="mt-4">Editando el cliente
+          <?= escapar($cliente['ruc']) . ' ' . escapar($cliente['nom']) ?>
         </h2>
         <hr>
         <form method="post">
           <div class="form-group">
             <label for="nombre">NOMBRE</label>
-            <input type="text" name="nom" id="nombre" value="<?= escapar($proveedor['nom']) ?>" class="form-control">
+            <input type="text" name="nom" id="nombre" value="<?= escapar($cliente['nom']) ?>" class="form-control">
           </div>
           <div class="form-group">
             <label for="direccion">DIRECCION</label>
-            <input type="text" name="dir" id="direccion" value="<?= escapar($proveedor['dir']) ?>"
+            <input type="text" name="dir" id="direccion" value="<?= escapar($cliente['dir']) ?>"
               class="form-control">
           </div>
           <div class="form-group">
             <input name="csrf" type="hidden" value="<?php echo escapar($_SESSION['csrf']); ?>">
             <input type="submit" name="submit" class="btn btn-primary" value="Actualizar">
-            <a class="btn btn-primary" href="index.php">Regresar al inicio</a>
+            <a class="btn btn-primary" href="index_clie.php">Regresar al inicio</a>
           </div>
         </form>
       </div>
@@ -133,4 +133,4 @@ if (isset($proveedor) && $proveedor) {
 }
 ?>
 
-<?php require "templates/footer.php"; ?>
+<?php require "../templates/footer.php"; ?>
