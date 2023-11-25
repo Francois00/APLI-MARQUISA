@@ -20,18 +20,17 @@ if (isset($_POST['submit'])) {
     $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
     $proveedor = [
-      "ruc"   => $_POST['ruc'],
+      "ruc" => $_POST['ruc'],
       "nom" => $_POST['nom'],
-      "dir"    => $_POST['dir'],
+      "dir" => $_POST['dir'],
     ];
 
-    $consultaSQL = "INSERT INTO proveedor (ruc, nom, dir)";
-    $consultaSQL .= "values (:" . implode(", :", array_keys($proveedor)) . ")";
+    $consultaSQL = "CALL sp_crear_proveedor(:ruc,:nom,:dir)";
 
     $sentencia = $conexion->prepare($consultaSQL);
     $sentencia->execute($proveedor);
 
-  } catch(PDOException $error) {
+  } catch (PDOException $error) {
     $resultado['error'] = true;
     $resultado['mensaje'] = $error->getMessage();
   }
@@ -74,7 +73,7 @@ if (isset($resultado)) {
           <label for="email">Direccion</label>
           <input type="text" name="dir" id="dir" class="form-control">
         </div>
-                <div class="form-group">
+        <div class="form-group">
           <input name="csrf" type="hidden" value="<?php echo escapar($_SESSION['csrf']); ?>">
           <input type="submit" name="submit" class="btn btn-primary" value="Enviar">
           <a class="btn btn-primary" href="index.php">Regresar al inicio</a>
