@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
     $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
     $ordenCompra = [
-      "nro_oc" => $_POST['nro_oc'],
+      "nro_oc" => $_GET['nro_oc'],
       "solic_por" => $_POST['solic_por'],
       "autor_por" => $_POST['autor_por'],
       "fec_emi" => $_POST['fec_emi'],
@@ -131,6 +131,11 @@ if (isset($ordenCompra) && $ordenCompra) {
         </h2>
         <hr>
         <form method="post">
+          <div class="form-group">
+            <label for="nro_oc">Numero Orden de Compra</label>
+            <input type="text" name="nro_oc" id="nro_oc" value="<?= escapar($ordenCompra['nro_oc']) ?>"
+              class="form-control" disabled>
+          </div>
           <div class="form-group">
             <label for="solic_por">Solicitado por</label>
             <input type="text" name="solic_por" id="solic_por" value="<?= escapar($ordenCompra['solic_por']) ?>"
