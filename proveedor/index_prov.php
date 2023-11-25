@@ -1,5 +1,5 @@
 <?php
-include 'funciones.php';
+include '../funciones.php';
 
 csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
@@ -7,7 +7,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
 }
 
 $error = false;
-$config = include 'config.php';
+$config = include '../config.php';
 
 try {
   $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
@@ -24,15 +24,15 @@ try {
 
   $proveedor = $sentencia->fetchAll();
 
-} catch(PDOException $error) {
-  $error= $error->getMessage();
+} catch (PDOException $error) {
+  $error = $error->getMessage();
 }
 
 $titulo = isset($_POST['ruc']) ? 'Lista de proveedores (' . $_POST['ruc'] . ')' : 'Lista de proveedores';
 ?>
 
 
-<?php include "templates/header.php"; ?>
+<?php include "../templates/header.php"; ?>
 
 <?php
 if ($error) {
@@ -53,7 +53,7 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <a href="crear.php"  class="btn btn-primary mt-4">Crear Proveedor</a>
+      <a href="crear.php" class="btn btn-primary mt-4">Crear Proveedor</a>
       <hr>
       <form method="post" class="form-inline">
         <div class="form-group mr-3">
@@ -69,7 +69,9 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <h2 class="mt-3"><?= $titulo ?></h2>
+      <h2 class="mt-3">
+        <?= $titulo ?>
+      </h2>
       <table class="table">
         <thead>
           <tr>
@@ -84,9 +86,15 @@ if ($error) {
             foreach ($proveedor as $fila) {
               ?>
               <tr>
-                <td><?php echo escapar($fila["ruc"]); ?></td>
-                <td><?php echo escapar($fila["nom"]); ?></td>
-                <td><?php echo escapar($fila["dir"]); ?></td>
+                <td>
+                  <?php echo escapar($fila["ruc"]); ?>
+                </td>
+                <td>
+                  <?php echo escapar($fila["nom"]); ?>
+                </td>
+                <td>
+                  <?php echo escapar($fila["dir"]); ?>
+                </td>
                 <td>
                   <a href="<?= 'borrar.php?ruc=' . escapar($fila["ruc"]) ?>">🗑️Borrar</a>
                   <a href="<?= 'editar.php?ruc=' . escapar($fila["ruc"]) ?>">✏️Editar</a>
