@@ -24,7 +24,7 @@ if (isset($_POST['submit'])) {
     $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
     $ordenCompra = [
-      "nro_oc" => $_GET['nro_oc'],
+      "nro_oc" => $_POST['nro_oc'],
       "solic_por" => $_POST['solic_por'],
       "autor_por" => $_POST['autor_por'],
       "fec_emi" => $_POST['fec_emi'],
@@ -33,7 +33,8 @@ if (isset($_POST['submit'])) {
       "nro_req_ori" => $_POST['nro_req_ori'],
       "obs" => $_POST['obs'],
       "ruc_prov" => $_POST['ruc_prov'],
-      "cod_mon" => $_POST["con_mon"],
+      "ruc_cli" => $_POST['ruc_cli'],
+      "cod_mon" => $_POST["cod_mon"],
       "padrones" => $_POST["padrones"],
       "representante" => $_POST["representante"],
       "form_pago" => $_POST["form_pago"],
@@ -43,18 +44,16 @@ if (isset($_POST['submit'])) {
       "ret_tot" => $_POST["ret_tot"],
       "det_tot" => $_POST["det_tot"],
       "per_tot" => $_POST["per_tot"],
-      "tot_giro" => $_POST["tot_giro"],
-
-      // Agrega más campos según sea necesario
+      "tot_giro" => $_POST["tot_giro"]
     ];
 
-    $consultaSQL = "CALL actualizar_cabecera_orden_compra(:solic_por, :autor_por, :fec_emi ,
+    $consultaSQL = 'CALL sp_actualizar_cabecera_orden_compra(:nro_oc,:solic_por, :autor_por, :fec_emi ,
     :nota, :obra , :nro_req_ori ,
     :obs, :ruc_prov , :ruc_cli,
     :cod_mon, :padrones, :representante,
     :form_pago, :subtotal, :igv,
     :total, :ret_tot , :det_tot,
-    :per_tot , :tot_giro , updated_at = NOW())";
+    :per_tot , :tot_giro)';
     $consulta = $conexion->prepare($consultaSQL);
     $consulta->execute($ordenCompra);
 
@@ -204,17 +203,28 @@ if (isset($ordenCompra) && $ordenCompra) {
             <input type="text" name="igv" id="igv" value="<?= escapar($ordenCompra['igv']) ?>" class="form-control">
           </div>
           <div class="form-group">
-            <label for="total">Total</label>
-            <input type="text" name="total" id="total" value="<?= escapar($ordenCompra['total']) ?>" class="form-control">
-          </div>
-          <div class="form-group">
             <label for="ret_tot">Retención Total</label>
             <input type="text" name="ret_tot" id="ret_tot" value="<?= escapar($ordenCompra['ret_tot']) ?>"
               class="form-control">
           </div>
           <div class="form-group">
             <label for="det_tot">Detracción Total</label>
-            <input type="text" name="det_tot" id="det_tot" value="<?= escapar($ordenCompra['tot_giro']) ?>"
+            <input type="text" name="det_tot" id="det_tot" value="<?= escapar($ordenCompra['det_tot']) ?>"
+              class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="per_tot">Percepción Total</label>
+            <input type="text" name="per_tot" id="per_tot" value="<?= escapar($ordenCompra['per_tot']) ?>"
+              class="form-control">
+          </div>
+
+          <div class="form-group">
+            <label for="total">Total</label>
+            <input type="text" name="total" id="total" value="<?= escapar($ordenCompra['total']) ?>" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="det_tot">Detracción Total</label>
+            <input type="text" name="tot_giro" id="tot_giro" value="<?= escapar($ordenCompra['tot_giro']) ?>"
               class="form-control">
           </div>
 

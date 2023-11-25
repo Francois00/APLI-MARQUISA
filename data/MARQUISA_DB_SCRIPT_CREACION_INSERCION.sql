@@ -239,4 +239,300 @@ INSERT INTO cuerpo_orden_compra VALUES('3719','20ImV65FVU',5,1500.00, CURRENT_TI
 INSERT INTO cuerpo_orden_compra VALUES('3720','12NiV65FVU',3,600.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO cuerpo_orden_compra VALUES('3721','20ImV65FVU',6,1800.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO cuerpo_orden_compra VALUES('3722','12NiV65FVU',4,800.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+DELIMITER //
 
+CREATE PROCEDURE sp_actualizar_moneda(
+    in_cod INT,
+    in_nom VARCHAR(40),
+    in_tipo VARCHAR(30)
+)
+BEGIN
+    UPDATE moneda
+    SET nom = in_nom, tipo = in_tipo, updated_at = CURRENT_TIMESTAMP
+    WHERE cod = in_cod;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_actualizar_cliente(
+    in_ruc CHAR(11),
+    in_nom VARCHAR(150),
+    in_dir VARCHAR(200)
+)
+BEGIN
+    UPDATE cliente
+    SET nom = in_nom, dir = in_dir, updated_at = CURRENT_TIMESTAMP
+    WHERE ruc = in_ruc;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_actualizar_articulo(
+    in_cod CHAR(20),
+    in_nom VARCHAR(80),
+    in_und VARCHAR(40),
+    in_prec_uni FLOAT
+)
+BEGIN
+    UPDATE articulo
+    SET nom = in_nom, und = in_und, prec_uni = in_prec_uni, updated_at = CURRENT_TIMESTAMP
+    WHERE cod = in_cod;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_actualizar_cabecera_orden_compra(
+    in_nro_oc CHAR(8),
+    in_solic_por VARCHAR(40),
+    in_autor_por VARCHAR(40),
+    in_fec_emi DATE,
+    in_nota VARCHAR(500),
+    in_obra VARCHAR(40),
+    in_nro_req_ori VARCHAR(20),
+    in_obs VARCHAR(500),
+    in_ruc_prov CHAR(11),
+    in_ruc_cli CHAR(11),
+    in_cod_mon INT,
+    in_padrones VARCHAR(40),
+    in_representante VARCHAR(30),
+    in_form_pago VARCHAR(40),
+    in_subtotal FLOAT,
+    in_igv FLOAT,
+    in_total FLOAT,
+    in_ret_tot FLOAT,
+    in_det_tot FLOAT,
+    in_per_tot FLOAT,
+    in_tot_giro FLOAT
+)
+BEGIN
+    UPDATE cabecera_orden_compra
+    SET 
+        solic_por = in_solic_por, autor_por = in_autor_por, fec_emi = in_fec_emi,
+        nota = in_nota, obra = in_obra, nro_req_ori = in_nro_req_ori,
+        obs = in_obs, ruc_prov = in_ruc_prov, ruc_cli = in_ruc_cli,
+        cod_mon = in_cod_mon, padrones = in_padrones, representante = in_representante,
+        form_pago = in_form_pago, subtotal = in_subtotal, igv = in_igv,
+        total = in_total, ret_tot = in_ret_tot, det_tot = in_det_tot,
+        per_tot = in_per_tot, tot_giro = in_tot_giro, updated_at = CURRENT_TIMESTAMP
+    WHERE nro_oc = in_nro_oc;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_actualizar_cuerpo_orden_compra(
+    in_nro_oc CHAR(8),
+    in_cod_art CHAR(20),
+    in_cantidad INT,
+    in_subtotal_uni FLOAT
+)
+BEGIN
+    UPDATE cuerpo_orden_compra
+    SET 
+        cantidad = in_cantidad, subtotal_uni = in_subtotal_uni, 
+        updated_at = CURRENT_TIMESTAMP
+    WHERE nro_oc = in_nro_oc AND cod_art = in_cod_art;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_leer_proveedores()
+BEGIN
+    SELECT * FROM proveedor;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_leer_monedas()
+BEGIN
+    SELECT * FROM moneda;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_leer_clientes()
+BEGIN
+    SELECT * FROM cliente;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_leer_articulos()
+BEGIN
+    SELECT * FROM articulo;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_leer_cabeceras_orden_compra()
+BEGIN
+    SELECT * FROM cabecera_orden_compra;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_leer_cuerpos_orden_compra()
+BEGIN
+    SELECT * FROM cuerpo_orden_compra;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_eliminar_proveedor(IN ruc_param CHAR(11))
+BEGIN
+    DELETE FROM proveedor WHERE ruc = ruc_param;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_eliminar_moneda(IN cod_param INT)
+BEGIN
+    DELETE FROM moneda WHERE cod = cod_param;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_eliminar_cliente(IN ruc_param CHAR(11))
+BEGIN
+    DELETE FROM cliente WHERE ruc = ruc_param;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_eliminar_articulo(IN cod_param CHAR(20))
+BEGIN
+    DELETE FROM articulo WHERE cod = cod_param;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_eliminar_cabecera_orden_compra(IN nro_oc_param CHAR(8))
+BEGIN
+    DELETE FROM cabecera_orden_compra WHERE nro_oc = nro_oc_param;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_eliminar_cuerpo_orden_compra(IN nro_oc_param CHAR(8), IN cod_art_param CHAR(20))
+BEGIN
+    DELETE FROM cuerpo_orden_compra WHERE nro_oc = nro_oc_param AND cod_art = cod_art_param;
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_insertar_proveedor(
+    in_ruc CHAR(11),
+    in_nom VARCHAR(150),
+    in_dir VARCHAR(200)
+)
+BEGIN
+    INSERT INTO proveedor (ruc, nom, dir) VALUES (in_ruc, in_nom, in_dir);
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_insertar_moneda(
+    in_nom VARCHAR(40),
+    in_tipo VARCHAR(30)
+)
+BEGIN
+    INSERT INTO moneda (nom, tipo) VALUES (in_nom, in_tipo);
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_insertar_cliente(
+    in_ruc CHAR(11),
+    in_nom VARCHAR(150),
+    in_dir VARCHAR(200)
+)
+BEGIN
+    INSERT INTO cliente (ruc, nom, dir) VALUES (in_ruc, in_nom, in_dir);
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_insertar_articulo(
+    in_cod CHAR(20),
+    in_nom VARCHAR(80),
+    in_und VARCHAR(40),
+    in_prec_uni FLOAT
+)
+BEGIN
+    INSERT INTO articulo (cod, nom, und, prec_uni) VALUES (in_cod, in_nom, in_und, in_prec_uni);
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_insertar_cuerpo_orden_compra(
+    in_nro_oc CHAR(8),
+    in_cod_art CHAR(20),
+    in_cantidad INT,
+    in_subtotal_uni FLOAT
+)
+BEGIN
+    INSERT INTO cuerpo_orden_compra (nro_oc, cod_art, cantidad, subtotal_uni) 
+    VALUES (in_nro_oc, in_cod_art, in_cantidad, in_subtotal_uni);
+END //
+
+DELIMITER ;
+DELIMITER //
+
+CREATE PROCEDURE sp_insertar_cabecera_orden_compra(
+    in_nro_oc CHAR(8),
+    in_solic_por VARCHAR(40),
+    in_autor_por VARCHAR(40),
+    in_fec_emi DATE,
+    in_nota VARCHAR(500),
+    in_obra VARCHAR(40),
+    in_nro_req_ori VARCHAR(20),
+    in_obs VARCHAR(500),
+    in_ruc_prov CHAR(11),
+    in_ruc_cli CHAR(11),
+    in_cod_mon INT,
+    in_padrones VARCHAR(40),
+    in_representante VARCHAR(30),
+    in_form_pago VARCHAR(40),
+    in_subtotal FLOAT,
+    in_igv FLOAT,
+    in_total FLOAT,
+    in_ret_tot FLOAT,
+    in_det_tot FLOAT,
+    in_per_tot FLOAT,
+    in_tot_giro FLOAT
+)
+BEGIN
+    INSERT INTO cabecera_orden_compra (
+        nro_oc, solic_por, autor_por, fec_emi, nota, obra,
+        nro_req_ori, obs, ruc_prov, ruc_cli, cod_mon, padrones,
+        representante, form_pago, subtotal, igv, total,
+        ret_tot, det_tot, per_tot, tot_giro
+    ) VALUES (
+        in_nro_oc, in_solic_por, in_autor_por, in_fec_emi, in_nota, in_obra,
+        in_nro_req_ori, in_obs, in_ruc_prov, in_ruc_cli, in_cod_mon, in_padrones,
+        in_representante, in_form_pago, in_subtotal, in_igv, in_total,
+        in_ret_tot, in_det_tot, in_per_tot, in_tot_giro
+    );
+END //
+
+DELIMITER ;
