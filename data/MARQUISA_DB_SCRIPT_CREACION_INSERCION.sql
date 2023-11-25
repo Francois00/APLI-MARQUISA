@@ -536,3 +536,87 @@ BEGIN
 END //
 
 DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_cuerpo_orden_compra
+AFTER INSERT ON cuerpo_orden_compra
+FOR EACH ROW
+BEGIN
+    DECLARE total_subtotal FLOAT;
+    DECLARE total_igv FLOAT;
+    DECLARE total_total FLOAT;
+
+    -- Calcular los totales
+    SELECT SUM(subtotal_uni) INTO total_subtotal
+    FROM cuerpo_orden_compra
+    WHERE nro_oc = NEW.nro_oc;
+
+    SET total_igv = total_subtotal * 0.18; -- Suponiendo que el IGV es el 18%
+    SET total_total = total_subtotal + total_igv;
+
+    -- Actualizar la cabecera_orden_compra con los nuevos totales
+    UPDATE cabecera_orden_compra
+    SET subtotal = total_subtotal,
+        igv = total_igv,
+        total = total_total
+    WHERE nro_oc = NEW.nro_oc;
+END;
+
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_cuerpo_orden_compra
+AFTER INSERT ON cuerpo_orden_compra
+FOR EACH ROW
+BEGIN
+    DECLARE total_subtotal FLOAT;
+    DECLARE total_igv FLOAT;
+    DECLARE total_total FLOAT;
+
+    -- Calcular los totales
+    SELECT SUM(subtotal_uni) INTO total_subtotal
+    FROM cuerpo_orden_compra
+    WHERE nro_oc = NEW.nro_oc;
+
+    SET total_igv = total_subtotal * 0.18; -- Suponiendo que el IGV es el 18%
+    SET total_total = total_subtotal + total_igv;
+
+    -- Actualizar la cabecera_orden_compra con los nuevos totales
+    UPDATE cabecera_orden_compra
+    SET subtotal = total_subtotal,
+        igv = total_igv,
+        total = total_total
+    WHERE nro_oc = NEW.nro_oc;
+END;
+
+//
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE TRIGGER before_delete_proveedor
+BEFORE DELETE ON proveedor
+FOR EACH ROW
+BEGIN
+    DECLARE count_oc INT;
+
+    -- Verificar si hay órdenes de compra que hacen referencia al proveedor
+    SELECT COUNT(*) INTO count_oc
+    FROM cabecera_orden_compra
+    WHERE ruc_prov = OLD.ruc;
+
+    -- Si hay órdenes de compra, evitar la eliminación del proveedor
+    IF count_oc > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'No se puede eliminar el proveedor porque hay órdenes de compra asociadas.';
+    END IF;
+END;
+
+//
+
+DELIMITER ;
