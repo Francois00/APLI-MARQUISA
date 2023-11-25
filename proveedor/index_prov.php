@@ -53,11 +53,7 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-<<<<<<< HEAD
-      <a href="crear.php" class="btn btn-primary mt-4">Crear Proveedor</a>
-=======
-      <a href="crear_prov.php"  class="btn btn-primary mt-4">Crear Proveedor</a>
->>>>>>> 61a73a3d36b54db9f8e52c69a6aed1b128aa15ea
+      <a href="crear_prov.php" class="btn btn-primary mt-4">Crear Proveedor</a>
       <hr>
       <form method="post" class="form-inline">
         <div class="form-group mr-3">
