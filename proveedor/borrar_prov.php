@@ -1,7 +1,7 @@
 <?php
-include 'funciones.php';
+include '../funciones.php';
 
-$config = include 'config.php';
+$config = include '../config.php';
 
 $resultado = [
   'error' => false,
@@ -18,7 +18,7 @@ try {
   $sentencia = $conexion->prepare($consultaSQL);
   $sentencia->execute();
 
-  header('Location: /index.php');
+  header('Location: index_prov.php');
 
 } catch(PDOException $error) {
   $resultado['error'] = true;
@@ -26,7 +26,7 @@ try {
 }
 ?>
 
-<?php require "templates/header.php"; ?>
+<?php require "../templates/header.php"; ?>
 
 <div class="container mt-2">
   <div class="row">
@@ -38,4 +38,4 @@ try {
   </div>
 </div>
 
-<?php require "templates/footer.php"; ?>
+<?php require "../templates/footer.php"; ?>

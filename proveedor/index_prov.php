@@ -1,5 +1,5 @@
 <?php
-include 'funciones.php';
+include '../funciones.php';
 
 csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
@@ -7,7 +7,7 @@ if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) 
 }
 
 $error = false;
-$config = include 'config.php';
+$config = include '../config.php';
 
 try {
   $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
@@ -32,7 +32,7 @@ $titulo = isset($_POST['ruc']) ? 'Lista de proveedores (' . $_POST['ruc'] . ')' 
 ?>
 
 
-<?php include "templates/header.php"; ?>
+<?php include "../templates/header.php"; ?>
 
 <?php
 if ($error) {
@@ -53,7 +53,7 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <a href="crear.php"  class="btn btn-primary mt-4">Crear Proveedor</a>
+      <a href="crear_prov.php"  class="btn btn-primary mt-4">Crear Proveedor</a>
       <hr>
       <form method="post" class="form-inline">
         <div class="form-group mr-3">
@@ -88,8 +88,8 @@ if ($error) {
                 <td><?php echo escapar($fila["nom"]); ?></td>
                 <td><?php echo escapar($fila["dir"]); ?></td>
                 <td>
-                  <a href="<?= 'borrar.php?ruc=' . escapar($fila["ruc"]) ?>">🗑️Borrar</a>
-                  <a href="<?= 'editar.php?ruc=' . escapar($fila["ruc"]) ?>">✏️Editar</a>
+                  <a href="<?= 'borrar_prov.php?ruc=' . escapar($fila["ruc"]) ?>">🗑️Borrar</a>
+                  <a href="<?= 'editar_prov.php?ruc=' . escapar($fila["ruc"]) ?>">✏️Editar</a>
                 </td>
               </tr>
               <?php
@@ -102,4 +102,4 @@ if ($error) {
   </div>
 </div>
 
-<?php include "templates/footer.php"; ?>
+<?php include "../templates/footer.php"; ?>

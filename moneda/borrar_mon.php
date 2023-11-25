@@ -1,7 +1,7 @@
 <?php
-include 'funciones.php';
+include '../funciones.php';
 
-$config = include 'config.php';
+$config = include '../config.php';
 
 $resultado = [
   'error' => false,
@@ -12,13 +12,13 @@ try {
   $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
     
-  $ruc = $_GET['ruc'];
-  $consultaSQL = "DELETE FROM proveedor WHERE ruc =" . $ruc;
+  $cod = $_GET['cod'];
+  $consultaSQL = "DELETE FROM moneda WHERE cod =" . $cod;
 
   $sentencia = $conexion->prepare($consultaSQL);
   $sentencia->execute();
 
-  header('Location: /index.php');
+  header('Location: index_mon.php');
 
 } catch(PDOException $error) {
   $resultado['error'] = true;
@@ -26,7 +26,7 @@ try {
 }
 ?>
 
-<?php require "templates/header.php"; ?>
+<?php require "../templates/header.php"; ?>
 
 <div class="container mt-2">
   <div class="row">
@@ -38,4 +38,4 @@ try {
   </div>
 </div>
 
-<?php require "templates/footer.php"; ?>
+<?php require "../templates/footer.php"; ?>

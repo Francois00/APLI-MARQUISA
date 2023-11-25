@@ -1,6 +1,6 @@
 <?php
 
-include 'funciones.php';
+include '../funciones.php';
 
 csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
@@ -13,7 +13,7 @@ if (isset($_POST['submit'])) {
     'mensaje' => 'El proveedor ' . escapar($_POST['nom']) . ' ha sido agregado con éxito'
   ];
 
-  $config = include 'config.php';
+  $config = include '../config.php';
 
   try {
     $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
 }
 ?>
 
-<?php include 'templates/header.php'; ?>
+<?php include '../templates/header.php'; ?>
 
 <?php
 if (isset($resultado)) {
@@ -77,11 +77,11 @@ if (isset($resultado)) {
                 <div class="form-group">
           <input name="csrf" type="hidden" value="<?php echo escapar($_SESSION['csrf']); ?>">
           <input type="submit" name="submit" class="btn btn-primary" value="Enviar">
-          <a class="btn btn-primary" href="index.php">Regresar al inicio</a>
+          <a class="btn btn-primary" href="index_prov.php">Regresar al inicio</a>
         </div>
       </form>
     </div>
   </div>
 </div>
 
-<?php include 'templates/footer.php'; ?>
+<?php include '../templates/footer.php'; ?>

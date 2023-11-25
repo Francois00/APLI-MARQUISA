@@ -1,19 +1,19 @@
 <?php
-include 'funciones.php';
+include '../funciones.php';
 
 csrf();
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
   die();
 }
 
-$config = include 'config.php';
+$config = include '../config.php';
 
 $resultado = [
   'error' => false,
   'mensaje' => ''
 ];
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['ruc'])) {
   $resultado['error'] = true;
   $resultado['mensaje'] = 'El proveedor no existe';
 }
@@ -66,7 +66,7 @@ try {
 }
 ?>
 
-<?php require "templates/header.php"; ?>
+<?php require "../templates/header.php"; ?>
 
 <?php
 if ($resultado['error']) {
@@ -123,7 +123,7 @@ if (isset($proveedor) && $proveedor) {
           <div class="form-group">
             <input name="csrf" type="hidden" value="<?php echo escapar($_SESSION['csrf']); ?>">
             <input type="submit" name="submit" class="btn btn-primary" value="Actualizar">
-            <a class="btn btn-primary" href="index.php">Regresar al inicio</a>
+            <a class="btn btn-primary" href="index_prov.php">Regresar al inicio</a>
           </div>
         </form>
       </div>
@@ -133,4 +133,4 @@ if (isset($proveedor) && $proveedor) {
 }
 ?>
 
-<?php require "templates/footer.php"; ?>
+<?php require "../templates/footer.php"; ?>
