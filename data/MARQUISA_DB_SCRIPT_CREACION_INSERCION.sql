@@ -574,7 +574,6 @@ END;
 
 
 
-
 CREATE TRIGGER before_delete_proveedor
 BEFORE DELETE ON proveedor
 FOR EACH ROW
@@ -590,9 +589,62 @@ BEGIN
     IF count_oc > 0 THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'No se puede eliminar el proveedor porque hay órdenes de compra asociadas.';
-    END; IF;
-END;;
+    END IF;
+END;
 
+CREATE TRIGGER before_delete_cliente
+BEFORE DELETE ON cliente
+FOR EACH ROW
+BEGIN
+    DECLARE count_oc INT;
+
+    -- Verificar si hay órdenes de compra que hacen referencia al proveedor
+    SELECT COUNT(*) INTO count_oc
+    FROM cabecera_orden_compra
+    WHERE ruc_cli = OLD.ruc;
+
+    -- Si hay órdenes de compra, evitar la eliminación del proveedor
+    IF count_oc > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'No se puede eliminar el proveedor porque hay órdenes de compra asociadas.';
+    END IF;
+END;
+
+CREATE TRIGGER before_delete_articulo
+BEFORE DELETE ON articulo
+FOR EACH ROW
+BEGIN
+    DECLARE count_oc INT;
+
+    -- Verificar si hay órdenes de compra que hacen referencia al proveedor
+    SELECT COUNT(*) INTO count_oc
+    FROM cuerpo_orden_compra
+    WHERE cod_art = OLD.cod;
+
+    -- Si hay órdenes de compra, evitar la eliminación del proveedor
+    IF count_oc > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'No se puede eliminar el proveedor porque hay órdenes de compra asociadas.';
+    END IF;
+END;
+
+CREATE TRIGGER before_delete_moneda
+BEFORE DELETE ON moneda
+FOR EACH ROW
+BEGIN
+    DECLARE count_oc INT;
+
+    -- Verificar si hay órdenes de compra que hacen referencia al proveedor
+    SELECT COUNT(*) INTO count_oc
+    FROM cabecera_orden_compra
+    WHERE cod_mon = OLD.cod;
+
+    -- Si hay órdenes de compra, evitar la eliminación del proveedor
+    IF count_oc > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'No se puede eliminar el proveedor porque hay órdenes de compra asociadas.';
+    END IF;
+END;
 
 
 
