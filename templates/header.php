@@ -30,6 +30,10 @@
             <a class="nav-link active" aria-current="page" href="../orden_compra/index_orden_compra.php">Orden de
               Compra</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../consultas/index.php">Consultas</a>
+          </li>
+
 
         </ul>
       </div>
