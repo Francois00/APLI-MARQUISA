@@ -533,7 +533,7 @@ BEGIN
         in_representante, in_form_pago, in_subtotal, in_igv, in_total,
         in_ret_tot, in_det_tot, in_per_tot, in_tot_giro
     );
-END; 
+END;
 
 
 
@@ -561,37 +561,13 @@ BEGIN
         igv = total_igv,
         total = total_total
     WHERE nro_oc = NEW.nro_oc;
-END;;
+END;
 
 
 
 
 
 
-
-CREATE TRIGGER after_insert_cuerpo_orden_compra
-AFTER INSERT ON cuerpo_orden_compra
-FOR EACH ROW
-BEGIN
-    DECLARE total_subtotal FLOAT;
-    DECLARE total_igv FLOAT;
-    DECLARE total_total FLOAT;
-
-    -- Calcular los totales
-    SELECT SUM(subtotal_uni) INTO total_subtotal
-    FROM cuerpo_orden_compra
-    WHERE nro_oc = NEW.nro_oc;
-
-    SET total_igv = total_subtotal * 0.18; -- Suponiend;o que el IGV es el 18%
-    SET total_total = total_subtotal + total_igv;
-
-    -- Actualizar la cabecera_orden_compra con los nuevos totales
-    UPDATE cabecera_orden_compra
-    SET subtotal = total_subtotal,
-        igv = total_igv,
-        total = total_total
-    WHERE nro_oc = NEW.nro_oc;
-END;;
 
 
 
