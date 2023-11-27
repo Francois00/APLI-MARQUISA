@@ -16,7 +16,7 @@ try {
   if (isset($_POST['cod'])) {
     $consultaSQL = "SELECT * FROM articulo WHERE cod LIKE '%" . $_POST['cod'] . "%'";
   } else {
-    $consultaSQL = "SELECT * FROM articulo";
+    $consultaSQL = "CALL sp_leer_articuloS()";
   }
 
   $sentencia = $conexion->prepare($consultaSQL);
@@ -24,8 +24,8 @@ try {
 
   $articulo = $sentencia->fetchAll();
 
-} catch(PDOException $error) {
-  $error= $error->getMessage();
+} catch (PDOException $error) {
+  $error = $error->getMessage();
 }
 
 $titulo = isset($_POST['cod']) ? 'Lista de articuloes (' . $_POST['cod'] . ')' : 'Lista de articulo es';
@@ -53,7 +53,7 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <a href="crear_art.php"  class="btn btn-primary mt-4">Crear articulo</a>
+      <a href="crear_art.php" class="btn btn-primary mt-4">Crear articulo</a>
       <hr>
       <form method="post" class="form-inline">
         <div class="form-group mr-3">
@@ -69,7 +69,9 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <h2 class="mt-3"><?= $titulo ?></h2>
+      <h2 class="mt-3">
+        <?= $titulo ?>
+      </h2>
       <table class="table">
         <thead>
           <tr>
@@ -85,10 +87,18 @@ if ($error) {
             foreach ($articulo as $fila) {
               ?>
               <tr>
-                <td><?php echo escapar($fila["cod"]); ?></td>
-                <td><?php echo escapar($fila["nom"]); ?></td>
-                <td><?php echo escapar($fila["und"]); ?></td>
-                <td><?php echo escapar($fila["prec_uni"]); ?></td>
+                <td>
+                  <?php echo escapar($fila["cod"]); ?>
+                </td>
+                <td>
+                  <?php echo escapar($fila["nom"]); ?>
+                </td>
+                <td>
+                  <?php echo escapar($fila["und"]); ?>
+                </td>
+                <td>
+                  <?php echo escapar($fila["prec_uni"]); ?>
+                </td>
                 <td>
                   <a href="<?= 'borrar_art.php?cod=' . escapar($fila["cod"]) ?>">🗑️Borrar</a>
                   <a href="<?= 'editar_art.php?cod=' . escapar($fila["cod"]) ?>">✏️Editar</a>

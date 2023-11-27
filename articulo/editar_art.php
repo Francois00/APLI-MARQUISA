@@ -30,12 +30,9 @@ if (isset($_POST['submit'])) {
       "prec_uni" => $_POST['prec_uni']
     ];
 
-    $consultaSQL = "UPDATE articulo SET
-        cod = :cod,
+    $consultaSQL = "CALL sp_actualizar articulo(:cod,
         und = :und,
-        prec_uni = :prec_uni,
-        updated_at = NOW()
-        WHERE cod = :cod";
+        prec_uni = :prec_uni)";
     $consulta = $conexion->prepare($consultaSQL);
     $consulta->execute($articulo);
 
@@ -51,13 +48,13 @@ try {
 
   $cod = $_GET['cod'];
   $consultaSQL = "SELECT * FROM articulo WHERE cod = :cod";
-  
+
   $sentencia = $conexion->prepare($consultaSQL);
   $sentencia->bindParam(':cod', $cod, PDO::PARAM_STR);
   $sentencia->execute();
-  
+
   $articulo = $sentencia->fetch(PDO::FETCH_ASSOC);
-  
+
 
   if (!$articulo) {
     $resultado['error'] = true;
@@ -121,8 +118,7 @@ if (isset($articulo) && $articulo) {
           </div>
           <div class="form-group">
             <label for="undeccion">UNIDAD</label>
-            <input type="text" name="und" id="und" value="<?= escapar($articulo['und']) ?>"
-              class="form-control">
+            <input type="text" name="und" id="und" value="<?= escapar($articulo['und']) ?>" class="form-control">
           </div>
           <div class="form-group">
             <label for="undeccion">PRECIO UNITARIO</label>
