@@ -17,17 +17,17 @@ try {
 
   // Consulta SQL
   $consultaSQL = "SELECT
-                 cliente.nom_cli AS cliente_nombre,
-                 cabecera_orden_compra.nro_oc,
-                 cuerpo_orden_compra.cod_art,
-                 articulo.nom AS articulo_nombre,
-                 obra.nom AS obra_nombre
-                FROM cliente
-                JOIN cabecera_orden_compra ON cliente.ruc_cli = cabecera_orden_compra.ruc_cli
-                JOIN cuerpo_orden_compra ON cabecera_orden_compra.nro_oc = cuerpo_orden_compra.nro_oc
-                JOIN articulo ON cuerpo_orden_compra.cod_art = articulo.cod_art
-                JOIN obra ON cabecera_orden_compra.cod_obra = obra.cod_obra
-                ORDER BY cliente.nom_cli;";
+  cliente.nom AS cliente_nombre,
+  cabecera_orden_compra.nro_oc,
+  cuerpo_orden_compra.cod_art,
+  articulo.nom AS articulo_nombre,
+  cabecera_orden_compra.obra AS obra_nom
+FROM cliente
+JOIN cabecera_orden_compra ON cliente.ruc = cabecera_orden_compra.ruc_cli
+JOIN cuerpo_orden_compra ON cabecera_orden_compra.nro_oc = cuerpo_orden_compra.nro_oc
+JOIN articulo ON cuerpo_orden_compra.cod_art = articulo.cod
+ORDER BY cliente.nom;
+";
 
   // Preparar y ejecutar la consulta
   $sentencia = $conexion->prepare($consultaSQL);
@@ -52,7 +52,6 @@ if (isset($resultados) && count($resultados) > 0) {
   echo "<th>Nro OC</th>";
   echo "<th>Cod Art</th>";
   echo "<th>Articulo</th>";
-  echo "<th>Obra</th>";
   echo "</tr>";
 
   foreach ($resultados as $fila) {
@@ -62,7 +61,6 @@ if (isset($resultados) && count($resultados) > 0) {
     echo "<td>" . $fila['nro_oc'] . "</td>";
     echo "<td>" . $fila['cod_art'] . "</td>";
     echo "<td>" . $fila['articulo_nombre'] . "</td>";
-    echo "<td>" . $fila['obra_nombre'] . "</td>";
     echo "</tr>";
 
   }
