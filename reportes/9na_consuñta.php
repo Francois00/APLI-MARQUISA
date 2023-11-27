@@ -16,12 +16,10 @@ try {
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
   // Consulta SQL
-  $consultaSQL = "SELECT
-                 cabecera_orden_compra.ruc_prov,
-                 COUNT(cabecera_orden_compra.nro_oc) AS cantidad_ordenes
-                FROM cabecera_orden_compra
-                WHERE cabecera_orden_compra.ruc_prov = '20604029768'
-                GROUP BY cabecera_orden_compra.ruc_prov;";
+  $consultaSQL = "SELECT ruc_prov, COUNT(nro_oc) as cantidad_ordenes
+  FROM cabecera_orden_compra
+  GROUP BY ruc_prov;
+  ";
 
   // Preparar y ejecutar la consulta
   $sentencia = $conexion->prepare($consultaSQL);
