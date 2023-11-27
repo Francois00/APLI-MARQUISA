@@ -153,7 +153,7 @@ INSERT INTO articulo VALUES('13iPV65FVU','iPhone 12','Unidad',4000, CURRENT_TIME
 INSERT INTO articulo VALUES('14BoV65FVU','Bolígrafo Pilot G2','Unidad',10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('15MaV65FVU','Maleta Samsonite','Unidad',300, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('16RaV65FVU','Ray-Ban Aviator','Unidad',150, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO articulo VALUES('17PeV65FVU','Pendientes de plata','Unidad',60, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO articulo VALUES('17PeV65FVU','Pend;ientes de plata','Unidad',60, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('18GaV65FVU','Garmin Forerunner','Unidad',300, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('19TeV65FVU','Teclado mecánico RGB','Unidad',150, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('20ImV65FVU','Impresora HP OfficeJet','Unidad',300, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
@@ -178,13 +178,13 @@ INSERT INTO articulo VALUES('38JuV65FVU','Juego de destornilladores y llaves','U
 INSERT INTO articulo VALUES('39SpV65FVU','Specialized Rockhopper','Unidad',800, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('40MaV65FVU','Manta tejida a mano','Unidad',90, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('41ViV65FVU','Vitamix 5200','Unidad',300, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO articulo VALUES('42CoV65FVU','Collar y pendientes de oro','Unidad',1000, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO articulo VALUES('42CoV65FVU','Collar y pend;ientes de oro','Unidad',1000, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('43PoV65FVU','Polaroid Now','Unidad',150, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('44TeV65FVU','Termo Yeti de 32 oz','Unidad',60, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('45SiV65FVU','Silla Eames de diseño','Unidad',150, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('46CaV65FVU','Camara Nest Cam','Unidad',250, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('47BoV65FVU','Bolso de cuero genuino','Unidad',120, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-INSERT INTO articulo VALUES('48CrV65FVU','Creality Ender 3','Unidad',300, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+INSERT INTO articulo VALUES('48CrV65FVU','Creality End;er 3','Unidad',300, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('49TaV65FVU','Tabla de cortar grande','Unidad',30, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('50VeV65FVU','Vestido de diseñador','Unidad',400, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO articulo VALUES('51CoV65FVU','Combo Logitech MK270','Unidad',50, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
@@ -239,7 +239,7 @@ INSERT INTO cuerpo_orden_compra VALUES('3719','20ImV65FVU',5,1500.00, CURRENT_TI
 INSERT INTO cuerpo_orden_compra VALUES('3720','12NiV65FVU',3,600.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO cuerpo_orden_compra VALUES('3721','20ImV65FVU',6,1800.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 INSERT INTO cuerpo_orden_compra VALUES('3722','12NiV65FVU',4,800.00, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-DELIMITER //
+
 
 CREATE PROCEDURE sp_actualizar_moneda(
     in_cod INT,
@@ -250,10 +250,10 @@ BEGIN
     UPDATE moneda
     SET nom = in_nom, tipo = in_tipo, updated_at = CURRENT_TIMESTAMP
     WHERE cod = in_cod;
-END //
+END;
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_actualizar_cliente(
     in_ruc CHAR(11),
@@ -264,10 +264,10 @@ BEGIN
     UPDATE cliente
     SET nom = in_nom, dir = in_dir, updated_at = CURRENT_TIMESTAMP
     WHERE ruc = in_ruc;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_actualizar_articulo(
     in_cod CHAR(20),
@@ -279,10 +279,10 @@ BEGIN
     UPDATE articulo
     SET nom = in_nom, und = in_und, prec_uni = in_prec_uni, updated_at = CURRENT_TIMESTAMP
     WHERE cod = in_cod;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_actualizar_cabecera_orden_compra(
     in_nro_oc CHAR(8),
@@ -318,10 +318,10 @@ BEGIN
         total = in_total, ret_tot = in_ret_tot, det_tot = in_det_tot,
         per_tot = in_per_tot, tot_giro = in_tot_giro, updated_at = CURRENT_TIMESTAMP
     WHERE nro_oc = in_nro_oc;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_actualizar_cuerpo_orden_compra(
     in_nro_oc CHAR(8),
@@ -335,106 +335,106 @@ BEGIN
         cantidad = in_cantidad, subtotal_uni = in_subtotal_uni, 
         updated_at = CURRENT_TIMESTAMP
     WHERE nro_oc = in_nro_oc AND cod_art = in_cod_art;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_leer_proveedores()
 BEGIN
     SELECT * FROM proveedor;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_leer_monedas()
 BEGIN
     SELECT * FROM moneda;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_leer_clientes()
 BEGIN
     SELECT * FROM cliente;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_leer_articulos()
 BEGIN
     SELECT * FROM articulo;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_leer_cabeceras_orden_compra()
 BEGIN
     SELECT * FROM cabecera_orden_compra;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_leer_cuerpos_orden_compra()
 BEGIN
     SELECT * FROM cuerpo_orden_compra;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_eliminar_proveedor(IN ruc_param CHAR(11))
 BEGIN
     DELETE FROM proveedor WHERE ruc = ruc_param;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_eliminar_moneda(IN cod_param INT)
 BEGIN
     DELETE FROM moneda WHERE cod = cod_param;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_eliminar_cliente(IN ruc_param CHAR(11))
 BEGIN
     DELETE FROM cliente WHERE ruc = ruc_param;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_eliminar_articulo(IN cod_param CHAR(20))
 BEGIN
     DELETE FROM articulo WHERE cod = cod_param;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_eliminar_cabecera_orden_compra(IN nro_oc_param CHAR(8))
 BEGIN
     DELETE FROM cabecera_orden_compra WHERE nro_oc = nro_oc_param;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_eliminar_cuerpo_orden_compra(IN nro_oc_param CHAR(8), IN cod_art_param CHAR(20))
 BEGIN
     DELETE FROM cuerpo_orden_compra WHERE nro_oc = nro_oc_param AND cod_art = cod_art_param;
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_insertar_proveedor(
     in_ruc CHAR(11),
@@ -443,10 +443,10 @@ CREATE PROCEDURE sp_insertar_proveedor(
 )
 BEGIN
     INSERT INTO proveedor (ruc, nom, dir) VALUES (in_ruc, in_nom, in_dir);
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_insertar_moneda(
     in_nom VARCHAR(40),
@@ -454,10 +454,10 @@ CREATE PROCEDURE sp_insertar_moneda(
 )
 BEGIN
     INSERT INTO moneda (nom, tipo) VALUES (in_nom, in_tipo);
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_insertar_cliente(
     in_ruc CHAR(11),
@@ -466,10 +466,10 @@ CREATE PROCEDURE sp_insertar_cliente(
 )
 BEGIN
     INSERT INTO cliente (ruc, nom, dir) VALUES (in_ruc, in_nom, in_dir);
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_insertar_articulo(
     in_cod CHAR(20),
@@ -479,10 +479,10 @@ CREATE PROCEDURE sp_insertar_articulo(
 )
 BEGIN
     INSERT INTO articulo (cod, nom, und, prec_uni) VALUES (in_cod, in_nom, in_und, in_prec_uni);
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_insertar_cuerpo_orden_compra(
     in_nro_oc CHAR(8),
@@ -493,10 +493,10 @@ CREATE PROCEDURE sp_insertar_cuerpo_orden_compra(
 BEGIN
     INSERT INTO cuerpo_orden_compra (nro_oc, cod_art, cantidad, subtotal_uni) 
     VALUES (in_nro_oc, in_cod_art, in_cantidad, in_subtotal_uni);
-END //
+END; 
 
-DELIMITER ;
-DELIMITER //
+
+
 
 CREATE PROCEDURE sp_insertar_cabecera_orden_compra(
     in_nro_oc CHAR(8),
@@ -533,11 +533,11 @@ BEGIN
         in_representante, in_form_pago, in_subtotal, in_igv, in_total,
         in_ret_tot, in_det_tot, in_per_tot, in_tot_giro
     );
-END //
+END;
 
-DELIMITER ;
 
-DELIMITER //
+
+
 
 CREATE TRIGGER after_insert_cuerpo_orden_compra
 AFTER INSERT ON cuerpo_orden_compra
@@ -552,7 +552,7 @@ BEGIN
     FROM cuerpo_orden_compra
     WHERE nro_oc = NEW.nro_oc;
 
-    SET total_igv = total_subtotal * 0.18; -- Suponiendo que el IGV es el 18%
+    SET total_igv = total_subtotal * 0.18; -- Suponiend;o que el IGV es el 18%
     SET total_total = total_subtotal + total_igv;
 
     -- Actualizar la cabecera_orden_compra con los nuevos totales
@@ -563,41 +563,16 @@ BEGIN
     WHERE nro_oc = NEW.nro_oc;
 END;
 
-//
 
-DELIMITER ;
 
-DELIMITER //
 
-CREATE TRIGGER after_insert_cuerpo_orden_compra
-AFTER INSERT ON cuerpo_orden_compra
-FOR EACH ROW
-BEGIN
-    DECLARE total_subtotal FLOAT;
-    DECLARE total_igv FLOAT;
-    DECLARE total_total FLOAT;
 
-    -- Calcular los totales
-    SELECT SUM(subtotal_uni) INTO total_subtotal
-    FROM cuerpo_orden_compra
-    WHERE nro_oc = NEW.nro_oc;
 
-    SET total_igv = total_subtotal * 0.18; -- Suponiendo que el IGV es el 18%
-    SET total_total = total_subtotal + total_igv;
 
-    -- Actualizar la cabecera_orden_compra con los nuevos totales
-    UPDATE cabecera_orden_compra
-    SET subtotal = total_subtotal,
-        igv = total_igv,
-        total = total_total
-    WHERE nro_oc = NEW.nro_oc;
-END;
 
-//
 
-DELIMITER ;
 
-DELIMITER //
+
 
 CREATE TRIGGER before_delete_proveedor
 BEFORE DELETE ON proveedor
@@ -617,6 +592,59 @@ BEGIN
     END IF;
 END;
 
-//
+CREATE TRIGGER before_delete_cliente
+BEFORE DELETE ON cliente
+FOR EACH ROW
+BEGIN
+    DECLARE count_oc INT;
 
-DELIMITER ;
+    -- Verificar si hay órdenes de compra que hacen referencia al proveedor
+    SELECT COUNT(*) INTO count_oc
+    FROM cabecera_orden_compra
+    WHERE ruc_cli = OLD.ruc;
+
+    -- Si hay órdenes de compra, evitar la eliminación del proveedor
+    IF count_oc > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'No se puede eliminar el proveedor porque hay órdenes de compra asociadas.';
+    END IF;
+END;
+
+CREATE TRIGGER before_delete_articulo
+BEFORE DELETE ON articulo
+FOR EACH ROW
+BEGIN
+    DECLARE count_oc INT;
+
+    -- Verificar si hay órdenes de compra que hacen referencia al proveedor
+    SELECT COUNT(*) INTO count_oc
+    FROM cuerpo_orden_compra
+    WHERE cod_art = OLD.cod;
+
+    -- Si hay órdenes de compra, evitar la eliminación del proveedor
+    IF count_oc > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'No se puede eliminar el proveedor porque hay órdenes de compra asociadas.';
+    END IF;
+END;
+
+CREATE TRIGGER before_delete_moneda
+BEFORE DELETE ON moneda
+FOR EACH ROW
+BEGIN
+    DECLARE count_oc INT;
+
+    -- Verificar si hay órdenes de compra que hacen referencia al proveedor
+    SELECT COUNT(*) INTO count_oc
+    FROM cabecera_orden_compra
+    WHERE cod_mon = OLD.cod;
+
+    -- Si hay órdenes de compra, evitar la eliminación del proveedor
+    IF count_oc > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'No se puede eliminar el proveedor porque hay órdenes de compra asociadas.';
+    END IF;
+END;
+
+
+

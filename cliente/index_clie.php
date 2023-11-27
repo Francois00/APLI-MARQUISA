@@ -16,7 +16,7 @@ try {
   if (isset($_POST['ruc'])) {
     $consultaSQL = "SELECT * FROM cliente WHERE ruc LIKE '%" . $_POST['ruc'] . "%'";
   } else {
-    $consultaSQL = "SELECT * FROM cliente";
+    $consultaSQL = "CALL sp_leer_clientes()";
   }
 
   $sentencia = $conexion->prepare($consultaSQL);
@@ -24,8 +24,8 @@ try {
 
   $cliente = $sentencia->fetchAll();
 
-} catch(PDOException $error) {
-  $error= $error->getMessage();
+} catch (PDOException $error) {
+  $error = $error->getMessage();
 }
 
 $titulo = isset($_POST['ruc']) ? 'Lista de clientees (' . $_POST['ruc'] . ')' : 'Lista de clientees';
@@ -53,7 +53,7 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <a href="crear_clie.php"  class="btn btn-primary mt-4">Crear cliente</a>
+      <a href="crear_clie.php" class="btn btn-primary mt-4">Crear cliente</a>
       <hr>
       <form method="post" class="form-inline">
         <div class="form-group mr-3">
@@ -69,7 +69,9 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <h2 class="mt-3"><?= $titulo ?></h2>
+      <h2 class="mt-3">
+        <?= $titulo ?>
+      </h2>
       <table class="table">
         <thead>
           <tr>
@@ -84,9 +86,15 @@ if ($error) {
             foreach ($cliente as $fila) {
               ?>
               <tr>
-                <td><?php echo escapar($fila["ruc"]); ?></td>
-                <td><?php echo escapar($fila["nom"]); ?></td>
-                <td><?php echo escapar($fila["dir"]); ?></td>
+                <td>
+                  <?php echo escapar($fila["ruc"]); ?>
+                </td>
+                <td>
+                  <?php echo escapar($fila["nom"]); ?>
+                </td>
+                <td>
+                  <?php echo escapar($fila["dir"]); ?>
+                </td>
                 <td>
                   <a href="<?= 'borrar_clie.php?ruc=' . escapar($fila["ruc"]) ?>">🗑️Borrar</a>
                   <a href="<?= 'editar_clie.php?ruc=' . escapar($fila["ruc"]) ?>">✏️Editar</a>

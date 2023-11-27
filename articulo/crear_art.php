@@ -20,19 +20,19 @@ if (isset($_POST['submit'])) {
     $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
     $articulo = [
-      "cod"   => $_POST['cod'],
+      "cod" => $_POST['cod'],
       "nom" => $_POST['nom'],
-      "und"    => $_POST['und'],
-      "prec_uni"  => $_POST["prec_uni"],
+      "und" => $_POST['und'],
+      "prec_uni" => $_POST["prec_uni"],
     ];
 
-    $consultaSQL = "INSERT INTO articulo (cod, nom, und, prec_uni)";
+    $consultaSQL = "CALL sp_insertar_articulo(cod, nom, und, prec_uni)";
     $consultaSQL .= "values (:" . implode(", :", array_keys($articulo)) . ")";
 
     $sentencia = $conexion->prepare($consultaSQL);
     $sentencia->execute($articulo);
 
-  } catch(PDOException $error) {
+  } catch (PDOException $error) {
     $resultado['error'] = true;
     $resultado['mensaje'] = $error->getMessage();
   }
@@ -79,7 +79,7 @@ if (isset($resultado)) {
           <label for="email">Precio Unitario</label>
           <input type="text" name="prec_uni" id="prec_uni" class="form-control">
         </div>
-                <div class="form-group">
+        <div class="form-group">
           <input name="csrf" type="hidden" value="<?php echo escapar($_SESSION['csrf']); ?>">
           <input type="submit" name="submit" class="btn btn-primary" value="Enviar">
           <a class="btn btn-primary" href=" index_art.php">Regresar al inicio</a>

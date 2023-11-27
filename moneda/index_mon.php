@@ -16,7 +16,7 @@ try {
   if (isset($_POST['cod'])) {
     $consultaSQL = "SELECT * FROM moneda WHERE cod LIKE '%" . $_POST['cod'] . "%'";
   } else {
-    $consultaSQL = "SELECT * FROM moneda";
+    $consultaSQL = "CALL sp_leer_monedas()";
   }
 
   $sentencia = $conexion->prepare($consultaSQL);
@@ -24,8 +24,8 @@ try {
 
   $moneda = $sentencia->fetchAll();
 
-} catch(PDOException $error) {
-  $error= $error->getMessage();
+} catch (PDOException $error) {
+  $error = $error->getMessage();
 }
 
 $titulo = isset($_POST['cod']) ? 'Lista de monedaes (' . $_POST['cod'] . ')' : 'Lista de moneda es';
@@ -53,7 +53,7 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <a href="crear_mon.php"  class="btn btn-primary mt-4">Crear moneda</a>
+      <a href="crear_mon.php" class="btn btn-primary mt-4">Crear moneda</a>
       <hr>
       <form method="post" class="form-inline">
         <div class="form-group mr-3">
@@ -69,7 +69,9 @@ if ($error) {
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <h2 class="mt-3"><?= $titulo ?></h2>
+      <h2 class="mt-3">
+        <?= $titulo ?>
+      </h2>
       <table class="table">
         <thead>
           <tr>
@@ -84,9 +86,15 @@ if ($error) {
             foreach ($moneda as $fila) {
               ?>
               <tr>
-                <td><?php echo escapar($fila["cod"]); ?></td>
-                <td><?php echo escapar($fila["nom"]); ?></td>
-                <td><?php echo escapar($fila["tipo"]); ?></td>
+                <td>
+                  <?php echo escapar($fila["cod"]); ?>
+                </td>
+                <td>
+                  <?php echo escapar($fila["nom"]); ?>
+                </td>
+                <td>
+                  <?php echo escapar($fila["tipo"]); ?>
+                </td>
                 <td>
                   <a href="<?= 'borrar_mon.php?cod=' . escapar($fila["cod"]) ?>">🗑️Borrar</a>
                   <a href="<?= 'editar_mon.php?cod=' . escapar($fila["cod"]) ?>">✏️Editar</a>

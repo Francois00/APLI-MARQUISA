@@ -16,7 +16,7 @@ try {
   if (isset($_POST['ruc'])) {
     $consultaSQL = "SELECT * FROM proveedor WHERE ruc LIKE '%" . $_POST['ruc'] . "%'";
   } else {
-    $consultaSQL = "SELECT * FROM proveedor";
+    $consultaSQL = "CALL sp_leer_proveedores()";
   }
 
   $sentencia = $conexion->prepare($consultaSQL);
