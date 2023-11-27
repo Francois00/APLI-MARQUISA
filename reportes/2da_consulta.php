@@ -1,17 +1,21 @@
 <?php
 
-// Configuración de la conexión a la base de datos
-$dsn = 'mysql:host=tu_host;dbname=orden_de_compra_marquisa';
-$usuario = 'tu_usuario';
-$contrasena = 'tu_contrasena';
+include '../funciones.php';
+
+csrf();
+if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
+  die();
+}
+
+$error = false;
+$config = include '../config.php';
 
 try {
 
-  // Crear una nueva conexión PDO
-  $conexion = new PDO($dsn, $usuario, $contrasena);
+  $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
+  $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
-  // Configurar PDO para lanzar excepciones en caso de error
-  $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  
 
   // Consulta SQL
   $consultaSQL = "SELECT c.nro_oc, cc.cod_art, a.nom AS nom_articulo, a.und, a.prec_uni, cc.subtotal_uni
