@@ -1,3 +1,4 @@
+<?php include "../templates/header.php"; ?>
 <?php
 include '../funciones.php';
 
@@ -51,3 +52,4 @@ if (isset($resultados) && count($resultados) > 0) {
   echo "<p>No hay resultados para mostrar.</p>";
 }
 ?>
+<?php include "../templates/footer.php"; ?>
