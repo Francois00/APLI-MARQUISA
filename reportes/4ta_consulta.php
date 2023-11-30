@@ -16,12 +16,7 @@ try {
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
   // Consulta SQL
-  $consultaSQL = "SELECT p.nom AS nom_proveedor, a.nom AS nom_articulo
-                FROM proveedor p
-                JOIN cabecera_orden_compra cobra ON p.ruc = cobra.ruc_prov
-                JOIN cuerpo_orden_compra coco ON cobra.nro_oc = coco.nro_oc
-                JOIN articulo a ON coco.cod_art = a.cod
-                ORDER BY p.nom, a.nom";
+  $consultaSQL = "CALL GetProveedorArticuloInfo()";
 
   // Preparar y ejecutar la consulta
   $sentencia = $conexion->prepare($consultaSQL);

@@ -19,11 +19,7 @@ try {
   
 
   // Consulta SQL
-  $consultaSQL = "SELECT c.nro_oc, cc.cod_art, a.nom AS nom_articulo, a.und, a.prec_uni, cc.subtotal_uni
-                FROM cabecera_orden_compra c
-                INNER JOIN cuerpo_orden_compra cc ON c.nro_oc = cc.nro_oc
-                INNER JOIN articulo a ON cc.cod_art = a.cod
-                ORDER BY c.nro_oc";
+  $consultaSQL = "CALL GetOrdenCompraDetails()";
 
   // Preparar y ejecutar la consulta
   $sentencia = $conexion->prepare($consultaSQL);

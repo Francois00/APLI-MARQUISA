@@ -17,9 +17,7 @@ try {
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
   // Consulta SQL
-  $consultaSQL = "SELECT ruc_prov, COUNT(nro_oc) as cantidad_ordenes
-  FROM cabecera_orden_compra
-  GROUP BY ruc_prov;
+  $consultaSQL = "CALL GetOrdenCompraProviderCount()
   ";
 
   // Preparar y ejecutar la consulta

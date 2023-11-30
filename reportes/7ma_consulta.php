@@ -17,17 +17,7 @@ try {
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
   // Consulta SQL
-  $consultaSQL = "SELECT
-  cliente.nom AS cliente_nombre,
-  cabecera_orden_compra.nro_oc,
-  cuerpo_orden_compra.cod_art,
-  articulo.nom AS articulo_nombre,
-  cabecera_orden_compra.obra AS obra_nom
-FROM cliente
-JOIN cabecera_orden_compra ON cliente.ruc = cabecera_orden_compra.ruc_cli
-JOIN cuerpo_orden_compra ON cabecera_orden_compra.nro_oc = cuerpo_orden_compra.nro_oc
-JOIN articulo ON cuerpo_orden_compra.cod_art = articulo.cod
-ORDER BY cliente.nom;
+  $consultaSQL = "CALL GetClienteOrdenCompraInfo()
 ";
 
   // Preparar y ejecutar la consulta
