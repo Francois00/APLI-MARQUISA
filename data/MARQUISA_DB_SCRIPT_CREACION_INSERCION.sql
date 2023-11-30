@@ -2483,6 +2483,7 @@ WHERE
 END;
 
 CREATE PROCEDURE sp_insertar_proveedor(
+<<<<<<< HEAD
     in_ruc CHAR(11),
     in_nom VARCHAR(150),
     in_dir VARCHAR(200)
@@ -2491,6 +2492,17 @@ INSERT INTO
     proveedor (ruc, nom, dir)
 VALUES
     (in_ruc, in_nom, in_dir);
+=======
+    in in_ruc CHAR(11),
+    in in_nom VARCHAR(150),
+    in in_dir VARCHAR(200)
+)
+BEGIN
+    INSERT INTO proveedor (ruc, nom, dir) VALUES (in_ruc, in_nom, in_dir);
+END;
+
+
+>>>>>>> f47a432589a4a4c6eb025ecf476bd50f48882ffe
 
 END;
 
