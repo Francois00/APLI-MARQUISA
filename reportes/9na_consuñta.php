@@ -1,25 +1,26 @@
+<?php include "../templates/header.php"; ?>
 <?php
 
-// Configuración de la conexión a la base de datos
-$dsn = 'mysql:host=tu_host;dbname=orden_de_compra_marquisa';
-$usuario = 'tu_usuario';
-$contrasena = 'tu_contrasena';
+include '../funciones.php';
+
+csrf();
+if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
+  die();
+}
+
+$error = false;
+$config = include '../config.php';
 
 try {
 
-  // Crear una nueva conexión PDO
-  $conexion = new PDO($dsn, $usuario, $contrasena);
-
-  // Configurar PDO para lanzar excepciones en caso de error
-  $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
+  $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
   // Consulta SQL
-  $consultaSQL = "SELECT
-                 cabecera_orden_compra.ruc_prov,
-                 COUNT(cabecera_orden_compra.nro_oc) AS cantidad_ordenes
-                FROM cabecera_orden_compra
-                WHERE cabecera_orden_compra.ruc_prov = '20604029768'
-                GROUP BY cabecera_orden_compra.ruc_prov;";
+  $consultaSQL = "SELECT ruc_prov, COUNT(nro_oc) as cantidad_ordenes
+  FROM cabecera_orden_compra
+  GROUP BY ruc_prov;
+  ";
 
   // Preparar y ejecutar la consulta
   $sentencia = $conexion->prepare($consultaSQL);
@@ -62,3 +63,4 @@ if (isset($resultados) && count($resultados) > 0) {
 }
 
 ?>
+<?php include "../templates/footer.php"; ?>

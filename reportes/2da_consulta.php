@@ -1,3 +1,4 @@
+<?php include "../templates/header.php"; ?>
 <?php
 
 include '../funciones.php';
@@ -73,3 +74,4 @@ if (isset($resultados) && count($resultados) > 0) {
 }
 
 ?>
+<?php include "../templates/footer.php"; ?>

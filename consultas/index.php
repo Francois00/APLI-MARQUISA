@@ -11,17 +11,17 @@
   include("../templates/header.php");
   ?>
 
-  <ul class="btn-group" aria-label="Basic example" reversed>
+<ul class="btn-group" aria-label="Basic example" reversed>
     <a href="../reportes/1er_consulta.php" class="btn btn-primary" onclick="mostrarConsulta()">Obras/Proveedores</a>
-    <a href="/articulos-de-ordenes-de-compra" class="btn btn-primary">Articulos de Ordenes de compra</a>
-    <a href="/cliente/obra/proveedor" class="btn btn-primary">Cliente/Obra/Proveedor</a>
-    <a href="/proveedor/articulo" class="btn btn-primary">Proveedor/Articulo</a>
-    <a href="/oc/moneda/subtotal" class="btn btn-primary">OC/Moneda/Subtotal</a>
-    <a href="/obra/proveedor/num.oc/articulo/moneda/subtotal" class="btn btn-primary">Obra/Proveedor/Num.OC/Articulo/Moneda/Subtotal</a>
-    <a href="/cliente/num.oc/cod.articulo/nom.articulo/obra" class="btn btn-primary">Cliente/Num.OC/Cod.Artículo/Nom.Artículo/Obra</a>
-    <a href="/anio/num.oc" class="btn btn-primary">Año/Num.OC</a>
-    <a href="/ruc.proveedor/nom.proveedor/num.oc" class="btn btn-primary">Ruc.Proveedor/Nom.Proveedor/Num.OC</a>
-    <a href="/oc-entre-anios" class="btn btn-primary">OC entre años</a>
+    <a href="../reportes/2da_consulta.php" class="btn btn-primary">Articulos de Ordenes de compra</a>
+    <a href="../reportes/3ra_consulta.php" class="btn btn-primary">Cliente/Obra/Proveedor</a>
+    <a href="../reportes/4ta_consulta.php" class="btn btn-primary">Proveedor/Articulo</a>
+    <a href="../reportes/5ta_consulta.php" class="btn btn-primary">OC/Moneda/Subtotal</a>
+    <a href="../reportes/6ta_consulta.php" class="btn btn-primary">Obra/Proveedor/Num.OC/Articulo/Moneda/Subtotal</a>
+    <a href="../reportes/7ma_consulta.php" class="btn btn-primary">Cliente/Num.OC/Cod.Artículo/Nom.Artículo/Obra</a>
+    <a href="../reportes/8va_consulta.php" class="btn btn-primary">Año/Num.OC</a>
+    <a href="../reportes/9na_consuñta.php" class="btn btn-primary">Ruc.Proveedor/Nom.Proveedor/Num.OC</a>
+    <a href="../reportes/10ma_consulta.php" class="btn btn-primary">OC entre años</a>
   </ul>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

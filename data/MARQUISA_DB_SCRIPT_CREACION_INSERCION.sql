@@ -437,13 +437,13 @@ END;
 
 
 CREATE PROCEDURE sp_insertar_proveedor(
-    in_ruc CHAR(11),
-    in_nom VARCHAR(150),
-    in_dir VARCHAR(200)
+    in in_ruc CHAR(11),
+    in in_nom VARCHAR(150),
+    in in_dir VARCHAR(200)
 )
 BEGIN
     INSERT INTO proveedor (ruc, nom, dir) VALUES (in_ruc, in_nom, in_dir);
-END; 
+END;
 
 
 
@@ -645,6 +645,149 @@ BEGIN
         SET MESSAGE_TEXT = 'No se puede eliminar el proveedor porque hay órdenes de compra asociadas.';
     END IF;
 END;
+
+DELIMITER //
+
+CREATE PROCEDURE GetOrdenCompraProveedorInfo()
+BEGIN
+    SELECT cabecera_orden_compra.obra, proveedor.nom, proveedor.dir
+    FROM cabecera_orden_compra
+    INNER JOIN proveedor ON cabecera_orden_compra.ruc_prov = proveedor.ruc
+    ORDER BY cabecera_orden_compra.obra;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetOrdenCompraDetails()
+BEGIN
+    SELECT c.nro_oc, cc.cod_art, a.nom AS nom_articulo, a.und, a.prec_uni, cc.subtotal_uni
+    FROM cabecera_orden_compra c
+    INNER JOIN cuerpo_orden_compra cc ON c.nro_oc = cc.nro_oc
+    INNER JOIN articulo a ON cc.cod_art = a.cod; 
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetOrdenCompraClientProviderInfo()
+BEGIN
+    SELECT c.nom AS nom_cliente, cobra.obra, p.nom AS nom_proveedor
+    FROM cliente c
+    JOIN cabecera_orden_compra cobra ON c.ruc = cobra.ruc_cli
+    JOIN proveedor p ON cobra.ruc_prov = p.ruc
+    ORDER BY cobra.obra;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetProveedorArticuloInfo()
+BEGIN
+    SELECT p.nom AS nom_proveedor, a.nom AS nom_articulo
+    FROM proveedor p
+    JOIN cabecera_orden_compra cobra ON p.ruc = cobra.ruc_prov
+    JOIN cuerpo_orden_compra coco ON cobra.nro_oc = coco.nro_oc
+    JOIN articulo a ON coco.cod_art = a.cod
+    ORDER BY p.nom, a.nom;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetMonedaOrdenCompraInfo()
+BEGIN
+    SELECT 
+        cabecera_orden_compra.nro_oc,
+        moneda.cod,
+        cuerpo_orden_compra.subtotal_uni
+    FROM cabecera_orden_compra
+    JOIN cuerpo_orden_compra ON cabecera_orden_compra.nro_oc = cuerpo_orden_compra.nro_oc
+    JOIN moneda ON cabecera_orden_compra.cod_mon = moneda.cod
+    ORDER BY cabecera_orden_compra.nro_oc;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetFullOrdenCompraInfo()
+BEGIN
+    SELECT 
+        cabecera_orden_compra.obra AS obra_nombre,
+        proveedor.nom AS proveedor_nombre,
+        cabecera_orden_compra.nro_oc,
+        articulo.nom AS articulo_nombre,
+        moneda.nom AS moneda_nombre,
+        cuerpo_orden_compra.subtotal_uni AS subtotal
+    FROM cabecera_orden_compra
+    JOIN proveedor ON cabecera_orden_compra.ruc_prov = proveedor.ruc
+    JOIN cuerpo_orden_compra ON cabecera_orden_compra.nro_oc = cuerpo_orden_compra.nro_oc
+    JOIN articulo ON cuerpo_orden_compra.cod_art = articulo.cod
+    JOIN moneda ON cabecera_orden_compra.cod_mon = moneda.cod
+    ORDER BY cabecera_orden_compra.obra;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetClienteOrdenCompraInfo()
+BEGIN
+    SELECT
+      cliente.nom AS cliente_nombre,
+      cabecera_orden_compra.nro_oc,
+      cuerpo_orden_compra.cod_art,
+      articulo.nom AS articulo_nombre,
+      cabecera_orden_compra.obra AS obra_nom
+    FROM cliente
+    JOIN cabecera_orden_compra ON cliente.ruc = cabecera_orden_compra.ruc_cli
+    JOIN cuerpo_orden_compra ON cabecera_orden_compra.nro_oc = cuerpo_orden_compra.nro_oc
+    JOIN articulo ON cuerpo_orden_compra.cod_art = articulo.cod
+    ORDER BY cliente.nom;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetOrdenCompraYearCount()
+BEGIN
+    SELECT YEAR(fec_emi) as año, COUNT(nro_oc) as cantidad_generada
+    FROM cabecera_orden_compra
+    WHERE YEAR(fec_emi) = 2021
+    GROUP BY YEAR(fec_emi);
+END //
+
+DELIMITER ;
+
+DELIMITER //
+
+CREATE PROCEDURE GetOrdenCompraProviderCount()
+BEGIN
+    SELECT ruc_prov, COUNT(nro_oc) as cantidad_ordenes
+    FROM cabecera_orden_compra
+    GROUP BY ruc_prov;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetOrdenCompraTimeframeCount()
+BEGIN
+    SELECT COUNT(nro_oc) as cantidad_en_un_lapso_de_tiempo
+    FROM cabecera_orden_compra
+    WHERE cabecera_orden_com
+END //
+
+DELIMITER;
 
 
 

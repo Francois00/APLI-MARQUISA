@@ -1,18 +1,19 @@
+<?php include "../templates/header.php"; ?>
 <?php
+include '../funciones.php';
 
-// Configuración de la conexión a la base de datos
-$dsn = 'mysql:host=tu_host;dbname=orden_de_compra_marquisa';
-$usuario = 'tu_usuario';
-$contrasena = 'tu_contrasena';
+csrf();
+if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
+  die();
+}
+
+$error = false;
+$config = include '../config.php';
 
 try {
 
-  // Crear una nueva conexión PDO
-  $conexion = new PDO($dsn, $usuario, $contrasena);
-
-  // Configurar PDO para lanzar excepciones en caso de error
-  $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+  $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
+  $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
   // Consulta SQL
   $consultaSQL = "SELECT
                  YEAR(cabecera_orden_compra.fec_emi) AS año,
@@ -62,3 +63,4 @@ if (isset($resultados) && count($resultados) > 0) {
 }
 
 ?>
+<?php include "../templates/footer.php"; ?>
