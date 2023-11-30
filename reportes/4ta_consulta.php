@@ -1,5 +1,5 @@
-<?php include "../templates/header.php"; ?><
-?php
+<?php include "../templates/header.php"; ?>
+<?php
 include '../funciones.php';
 
 csrf();
