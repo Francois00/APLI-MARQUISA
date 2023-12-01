@@ -20,14 +20,12 @@ if (isset($_POST['submit'])) {
     $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
     $moneda = [
-      
+
       "nom" => $_POST['nom'],
       "tipo" => $_POST['tipo'],
     ];
 
-    $consultaSQL = "INSERT INTO moneda ( nom, tipo)";
-    $consultaSQL .= "values (:" . implode(", :", array_keys($moneda)) . ")";
-
+    $consultaSQL = "CALL sp_insertar_moneda(:nom, :tipo)";
     $sentencia = $conexion->prepare($consultaSQL);
     $sentencia->execute($moneda);
 

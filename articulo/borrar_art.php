@@ -11,9 +11,9 @@ $resultado = [
 try {
   $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
-    
+
   $cod = $_GET['cod'];
-  $consultaSQL = "DELETE FROM articulo WHERE cod = :cod";
+  $consultaSQL = "CALL eliminar_articulo";
 
   $sentencia = $conexion->prepare($consultaSQL);
   $sentencia->bindParam(':cod', $cod, PDO::PARAM_STR);
@@ -21,7 +21,7 @@ try {
 
   header('Location: index_art.php');
 
-} catch(PDOException $error) {
+} catch (PDOException $error) {
   $resultado['error'] = true;
   $resultado['mensaje'] = $error->getMessage();
 }

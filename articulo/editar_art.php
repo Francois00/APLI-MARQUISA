@@ -30,8 +30,7 @@ if (isset($_POST['submit'])) {
       "prec_uni" => $_POST['prec_uni']
     ];
 
-    $consultaSQL = "CALL sp_actualizar articulo(:cod,
-        und = :und,
+    $consultaSQL = "CALL sp_actualizar articulo(:cod,und = :und,
         prec_uni = :prec_uni)";
     $consulta = $conexion->prepare($consultaSQL);
     $consulta->execute($articulo);

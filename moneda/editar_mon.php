@@ -29,11 +29,7 @@ if (isset($_POST['submit'])) {
       "tipo" => $_POST['tipo']
     ];
 
-    $consultaSQL = "UPDATE moneda SET
-        nom = :nom,
-        tipo = :tipo,
-        updated_at = NOW()
-        WHERE cod = :cod";
+    $consultaSQL = "CALL sp_actualizar_moneda(:cod,:nom,:tipo)";
     $consulta = $conexion->prepare($consultaSQL);
     $consulta->execute($moneda);
 
@@ -117,8 +113,7 @@ if (isset($moneda) && $moneda) {
           </div>
           <div class="form-group">
             <label for="tipoeccion">TIPO DE MONEDA</label>
-            <input type="text" name="tipo" id="tipo" value="<?= escapar($moneda['tipo']) ?>"
-              class="form-control">
+            <input type="text" name="tipo" id="tipo" value="<?= escapar($moneda['tipo']) ?>" class="form-control">
           </div>
           <div class="form-group">
             <input name="csrf" type="hidden" value="<?php echo escapar($_SESSION['csrf']); ?>">

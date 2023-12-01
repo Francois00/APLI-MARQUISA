@@ -11,16 +11,16 @@ $resultado = [
 try {
   $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
-    
+
   $cod = $_GET['cod'];
-  $consultaSQL = "DELETE FROM moneda WHERE cod =" . $cod;
+  $consultaSQL = "CALL sp_eliminar_moneda($cod)";
 
   $sentencia = $conexion->prepare($consultaSQL);
   $sentencia->execute();
 
   header('Location: index_mon.php');
 
-} catch(PDOException $error) {
+} catch (PDOException $error) {
   $resultado['error'] = true;
   $resultado['mensaje'] = $error->getMessage();
 }

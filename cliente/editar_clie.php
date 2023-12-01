@@ -29,11 +29,11 @@ if (isset($_POST['submit'])) {
       "dir" => $_POST['dir']
     ];
 
-    $consultaSQL = "UPDATE cliente SET
-        nom = :nom,
-        dir = :dir,
-        updated_at = NOW()
-        WHERE ruc = :ruc";
+    $consultaSQL = "CALL sp_actualizar_cliente(
+      :ruc,  
+      :nom,
+        :dir
+        )";
     $consulta = $conexion->prepare($consultaSQL);
     $consulta->execute($cliente);
 
@@ -117,8 +117,7 @@ if (isset($cliente) && $cliente) {
           </div>
           <div class="form-group">
             <label for="direccion">DIRECCION</label>
-            <input type="text" name="dir" id="direccion" value="<?= escapar($cliente['dir']) ?>"
-              class="form-control">
+            <input type="text" name="dir" id="direccion" value="<?= escapar($cliente['dir']) ?>" class="form-control">
           </div>
           <div class="form-group">
             <input name="csrf" type="hidden" value="<?php echo escapar($_SESSION['csrf']); ?>">
