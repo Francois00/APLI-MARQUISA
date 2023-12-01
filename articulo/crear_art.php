@@ -18,18 +18,22 @@ if (isset($_POST['submit'])) {
   try {
     $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
     $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
-
     $articulo = [
-      "cod" => $_POST['cod'],
-      "nom" => $_POST['nom'],
-      "und" => $_POST['und'],
-      "prec_uni" => $_POST["prec_uni"],
+      "in_cod" => $_POST['cod'],
+      "in_nom" => $_POST['nom'],
+      "in_und" => $_POST['und'],
+      "in_prec_uni" => $_POST["prec_uni"],
     ];
 
-    $consultaSQL = "CALL sp_insertar_articulo(cod, nom, und, prec_uni)";
-    $consultaSQL .= "values (:" . implode(", :", array_keys($articulo)) . ")";
+    $consultaSQL = "CALL sp_insertar_articulo(:in_cod, :in_nom, :in_und, :in_prec_uni)";
 
     $sentencia = $conexion->prepare($consultaSQL);
+    $sentencia->bindParam(':in_cod', $articulo['in_cod'], PDO::PARAM_STR);
+    $sentencia->bindParam(':in_nom', $articulo['in_nom'], PDO::PARAM_STR);
+    $sentencia->bindParam(':in_und', $articulo['in_und'], PDO::PARAM_STR);
+    $sentencia->bindParam(':in_prec_uni', $articulo['in_prec_uni'], PDO::PARAM_STR);
+
+
     $sentencia->execute($articulo);
 
   } catch (PDOException $error) {

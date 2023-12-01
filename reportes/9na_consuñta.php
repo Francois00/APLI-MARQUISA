@@ -1,3 +1,4 @@
+<?php include "../templates/header.php"; ?>
 <?php
 
 include '../funciones.php';
@@ -16,12 +17,8 @@ try {
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
   // Consulta SQL
-  $consultaSQL = "SELECT
-                 cabecera_orden_compra.ruc_prov,
-                 COUNT(cabecera_orden_compra.nro_oc) AS cantidad_ordenes
-                FROM cabecera_orden_compra
-                WHERE cabecera_orden_compra.ruc_prov = '20604029768'
-                GROUP BY cabecera_orden_compra.ruc_prov;";
+  $consultaSQL = "CALL GetOrdenCompraProviderCount()
+  ";
 
   // Preparar y ejecutar la consulta
   $sentencia = $conexion->prepare($consultaSQL);
@@ -64,3 +61,4 @@ if (isset($resultados) && count($resultados) > 0) {
 }
 
 ?>
+<?php include "../templates/footer.php"; ?>

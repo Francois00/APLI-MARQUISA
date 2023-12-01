@@ -1,3 +1,4 @@
+<?php include "../templates/header.php"; ?>
 <?php
 include '../funciones.php';
 
@@ -14,12 +15,7 @@ try {
   $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
   // Consulta SQL
-  $consultaSQL = "SELECT
-                 YEAR(cabecera_orden_compra.fec_emi) AS año,
-                 COUNT(cabecera_orden_compra.nro_oc) AS cantidad_generada
-                FROM cabecera_orden_compra
-                WHERE YEAR(cabecera_orden_compra.fec_emi) = 2021
-                GROUP BY YEAR(cabecera_orden_compra.fec_emi);";
+  $consultaSQL = "CALL GetOrdenCompraYearCount()";
 
   // Preparar y ejecutar la consulta
   $sentencia = $conexion->prepare($consultaSQL);
@@ -62,3 +58,4 @@ if (isset($resultados) && count($resultados) > 0) {
 }
 
 ?>
+<?php include "../templates/footer.php"; ?>

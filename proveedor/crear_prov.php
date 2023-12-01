@@ -3,6 +3,7 @@
 include '../funciones.php';
 
 csrf();
+
 if (isset($_POST['submit']) && !hash_equals($_SESSION['csrf'], $_POST['csrf'])) {
   die();
 }
@@ -20,16 +21,19 @@ if (isset($_POST['submit'])) {
     $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
 
     $proveedor = [
-      "ruc"   => $_POST['ruc'],
-      "nom" => $_POST['nom'],
-      "dir"    => $_POST['dir'],
+      "in_ruc" => $_POST['ruc'],
+      "in_nom" => $_POST['nom'],
+      "in_dir" => $_POST['dir'],
     ];
 
-    $consultaSQL = "INSERT INTO proveedor (ruc, nom, dir)";
-    $consultaSQL .= "values (:" . implode(", :", array_keys($proveedor)) . ")";
-
+    $consultaSQL = "CALL sp_insertar_proveedor(:in_ruc, :in_nom, :in_dir)";
+    
     $sentencia = $conexion->prepare($consultaSQL);
-    $sentencia->execute($proveedor);
+    $sentencia->bindParam(':in_ruc', $proveedor['in_ruc'], PDO::PARAM_STR);
+    $sentencia->bindParam(':in_nom', $proveedor['in_nom'], PDO::PARAM_STR);
+    $sentencia->bindParam(':in_dir', $proveedor['in_dir'], PDO::PARAM_STR);
+
+    $sentencia->execute();
 
   } catch(PDOException $error) {
     $resultado['error'] = true;
@@ -74,7 +78,7 @@ if (isset($resultado)) {
           <label for="email">Direccion</label>
           <input type="text" name="dir" id="dir" class="form-control">
         </div>
-                <div class="form-group">
+        <div class="form-group">
           <input name="csrf" type="hidden" value="<?php echo escapar($_SESSION['csrf']); ?>">
           <input type="submit" name="submit" class="btn btn-primary" value="Enviar">
           <a class="btn btn-primary" href="index_prov.php">Regresar al inicio</a>

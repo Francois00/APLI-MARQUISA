@@ -13,7 +13,7 @@ try {
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
     
   $ruc = $_GET['ruc'];
-  $consultaSQL = "DELETE FROM proveedor WHERE ruc =" . $ruc;
+  $consultaSQL = "CALL sp_eliminar_proveedor($ruc)" ;
 
   $sentencia = $conexion->prepare($consultaSQL);
   $sentencia->execute();

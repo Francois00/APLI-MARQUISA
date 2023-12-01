@@ -1,3 +1,4 @@
+<?php include "../templates/header.php"; ?>
 <?php
 include '../funciones.php';
 
@@ -14,13 +15,7 @@ try {
   $dsn = 'mysql:host=' . $config['db']['host'] . ';dbname=' . $config['db']['name'];
   $conexion = new PDO($dsn, $config['db']['user'], $config['db']['pass'], $config['db']['options']);
   // Consulta SQL
-  $consultaSQL = "SELECT cabecera_orden_compra.nro_oc,
-                 moneda.cod,
-                 cuerpo_orden_compra.subtotal_uni
-                FROM cabecera_orden_compra
-                JOIN cuerpo_orden_compra ON cabecera_orden_compra.nro_oc = cuerpo_orden_compra.nro_oc
-                JOIN moneda ON cabecera_orden_compra.cod_mon = moneda.cod
-                ORDER BY cabecera_orden_compra.nro_oc;";
+  $consultaSQL = "CALL GetMonedaOrdenCompraInfo()";
 
   // Preparar y ejecutar la consulta
   $sentencia = $conexion->prepare($consultaSQL);
@@ -65,3 +60,4 @@ if (isset($resultados) && count($resultados) > 0) {
 }
 
 ?>
+<?php include "../templates/footer.php"; ?>
